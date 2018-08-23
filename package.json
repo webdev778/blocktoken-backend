@@ -1,0 +1,36 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start:dev": "NODE_PATH=src nodemon --watch src/ src/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yaodev778/ICOBackend.git"
+  },
+  "author": "yaodev778",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/yaodev778/ICOBackend/issues"
+  },
+  "homepage": "https://github.com/yaodev778/ICOBackend#readme",
+  "dependencies": {
+    "dotenv": "^6.0.0",
+    "fb": "^2.0.0",
+    "googleapis": "22.2.0",
+    "joi": "^13.6.0",
+    "jsonwebtoken": "^8.3.0",
+    "koa": "^2.5.2",
+    "koa-bodyparser": "^4.2.1",
+    "koa-compress": "^3.0.0",
+    "koa-cors": "^0.0.16",
+    "koa-router": "^7.4.0",
+    "koa-static": "^5.0.0",
+    "moment": "^2.22.2",
+    "mongoose": "^5.2.9",
+    "mongoose-double": "^0.0.1",
+    "nodemon": "^1.18.3"
+  }
+}
