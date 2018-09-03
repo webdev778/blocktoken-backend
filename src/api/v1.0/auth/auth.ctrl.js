@@ -153,10 +153,11 @@ exports.socialLogin = async (ctx) => {
     ctx.status = 400;
     return;
   }
-
+  
   const { provider } = ctx.params;
   const { accessToken } = ctx.request.body;
-
+  
+  console.log(`<social Login> REQUESTED`);
   // get social info
   let profile = null;
   try {
@@ -172,8 +173,10 @@ exports.socialLogin = async (ctx) => {
   }
 
   const {
-    id, email
+    id, name, email
   } = profile;
+  console.log(`Social Info, Provider:${provider}`);
+  console.log(profile);
   // check account existancy
   let user = null;
   try {
@@ -236,7 +239,12 @@ exports.socialLogin = async (ctx) => {
   }
 
   if (!user) {
-    ctx.status = 204;
+    // ctx.status = 204;
+    ctx.body = {
+      socialProfile:{
+        id, name, email
+      }
+    };
   }
 };
 
@@ -247,11 +255,7 @@ exports.socialRegister = async (ctx) => {
   const schema = Joi.object({
     displayName: Joi.string().regex(/^[a-zA-Z0-9]{3,12}$/).required(),
     provider: Joi.string().allow('facebook', 'google').required(),
-    accessToken: Joi.string().required(),
-    initialMoney: Joi.object({
-      currency: Joi.string().allow('KRW', 'USD', 'BTC').required(),
-      index: Joi.number().min(0).max(2).required()
-    }).required()
+    accessToken: Joi.string().required()
   });
 
   const result = Joi.validate(body.schema);
@@ -264,8 +268,7 @@ exports.socialRegister = async (ctx) => {
 
   const {
     displayName,
-    accessToken,
-    initialMoney
+    accessToken
   } = body;
   // get social info
   let profile = null;
@@ -316,13 +319,6 @@ exports.socialRegister = async (ctx) => {
     ctx.throw(e, 500);
   }
   
-  // initialMoney setting
-  const { currency, index } = initialMoney;
-  const value = optionsPerCurrency[currency].initialValue * Math.pow(10, index);
-  const initial = {
-    currency,
-    value
-  };
   // create user account
   let user = null;
   try {
@@ -332,7 +328,6 @@ exports.socialRegister = async (ctx) => {
       provider,
       accessToken,
       socialId,
-      initial
     });
   } catch (e) {
     ctx.throw(e, 500);
@@ -369,6 +364,7 @@ exports.check = (ctx) => {
 };
 
 exports.logout = (ctx) => {
+  console.log('logout')
   ctx.cookies.set('access_token', null, {
     maxAge: 0,
     httpOnly: true

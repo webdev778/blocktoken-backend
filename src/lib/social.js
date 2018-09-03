@@ -5,10 +5,11 @@ const google = require('googleapis');
 const plus = google.plus('v1');
 
 function getFacebookProfile(accessToken) {
-  return FB.api('me', { fields: ['email'], access_token: accessToken }).then(
+  return FB.api('me', { fields: ['name, email'], access_token: accessToken }).then(
     (auth) => ({
       id: auth.id,
-      email: auth.email
+      name: auth.name,
+      email: auth.email || null,
     })
   );
 }
@@ -20,9 +21,15 @@ function getGoogleProfile(accessToken) {
       access_token: accessToken
     }, (err, auth) => {
       if(err) reject(err);
+
+      const {
+        id, image, emails, displayName,
+      } = auth;
+
       resolve({
-        id: auth.id,
-        email: auth.emails[0].value
+        id,
+        name: displayName && displayName.split(' (')[0],
+        email: emails[0].value
       });
     });
   });
