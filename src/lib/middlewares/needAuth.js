@@ -5,3 +5,4 @@ module.exports = (ctx, next) => {
     return null;
   }
   return next();
+}
