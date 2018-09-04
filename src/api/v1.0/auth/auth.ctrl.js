@@ -258,6 +258,10 @@ exports.socialRegister = async (ctx) => {
   // check schema
   const schema = Joi.object({
     displayName: Joi.string().regex(/^[a-zA-Z0-9]{3,12}$/).required(),
+    fullname: Joi.string(),
+    address: Joi.string(),
+    company: Joi.string(),
+    website: Joi.string(),
     provider: Joi.string().allow('facebook', 'google').required(),
     accessToken: Joi.string().required()
   });
@@ -272,6 +276,10 @@ exports.socialRegister = async (ctx) => {
 
   const {
     displayName,
+    fullname,
+    address,
+    company,
+    website,
     accessToken
   } = body;
   // get social info
@@ -329,6 +337,10 @@ exports.socialRegister = async (ctx) => {
     user = await User.socialRegister({
       displayName,
       email,
+      fullname,
+      address,
+      company,
+      website,
       provider,
       accessToken,
       socialId,

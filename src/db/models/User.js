@@ -18,6 +18,10 @@ function hash(password) {
 const User = new Schema({
   displayName: String,
   email: String,
+  fullname: String,
+  address: String,
+  company: String,
+  website: String,
   social: {
     facebook: {
       id: String,
@@ -77,6 +81,10 @@ User.statics.localRegister = async function({ displayName, email, password, full
 User.statics.socialRegister = async function({
   displayName,
   email,
+  fullname,
+  address,
+  company,
+  website,
   provider,
   accessToken,
   socialId
@@ -84,6 +92,10 @@ User.statics.socialRegister = async function({
   const user = new this({
     displayName,
     email,
+    fullname,
+    address,
+    company,
+    website,
     social: {
       [provider]: {
         id: socialId,
