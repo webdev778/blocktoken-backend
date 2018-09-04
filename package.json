@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start:dev": "NODE_PATH=src nodemon --watch src/ src/index.js"
+    "start:dev": "cross-env NODE_PATH=src nodemon --watch src/ src/index.js"
   },
   "repository": {
     "type": "git",
@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/yaodev778/ICOBackend#readme",
   "dependencies": {
+    "cross-env": "^5.2.0",
     "dotenv": "^6.0.0",
     "fb": "^2.0.0",
     "googleapis": "22.2.0",

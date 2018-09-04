@@ -60,11 +60,15 @@ User.statics.findSocialId = function({provider, id}) {
   });
 };
 
-User.statics.localRegister = async function({ displayName, email, password }) {
+User.statics.localRegister = async function({ displayName, email, password, fullname, address, company, website }) {
   const user = new this({
     displayName, 
     email,
-    password: hash(password)
+    password: hash(password),
+    fullname,
+    address,
+    company,
+    website
   });
 
   return user.save();

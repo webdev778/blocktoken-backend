@@ -43,7 +43,11 @@ exports.localRegister = async (ctx) => {
   const schema = Joi.object({
     displayName: Joi.string().regex(/^[a-zA-Z0-9]{3,10}/).required(),
     email: Joi.string().email().required(),
-    password: Joi.string().min(6).max(30)
+    password: Joi.string().min(6).max(30),
+    fullname: Joi.string(),
+    address: Joi.string(),
+    company: Joi.string(),
+    website: Joi.string()
   });
 
   const result = Joi.validate(body, schema);
@@ -54,7 +58,7 @@ exports.localRegister = async (ctx) => {
     return;
   }
 
-  const { displayName, email, password } = body;
+  const { displayName, email, password, fullname, address, company, website } = body;
 
   try {
     // check email / displayName existancy
@@ -71,7 +75,7 @@ exports.localRegister = async (ctx) => {
 
     // creates user account
     const user = await User.localRegister({
-      displayName, email, password  
+      displayName, email, password, fullname, address, company, website  
     });
     ctx.body = {
       displayName,
