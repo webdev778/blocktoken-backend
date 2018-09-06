@@ -198,7 +198,7 @@ exports.getCrowdsaleList = async (ctx)=> {
   try {
     const contracts = await CrowdsaleContract.find({
       user_id: user._id
-    }).exec();
+    }).populate('token_contract').exec();
 
     ctx.body = {
       contracts
@@ -245,7 +245,7 @@ exports.getCrowdsaleContractByAddress = async (ctx)=> {
   const { address: contract_address } = ctx.params;
   
   try {
-    const crowdsaleContract = await CrowdsaleContract.find({
+    const crowdsaleContract = await CrowdsaleContract.findOne({
       contract_address
     }).exec();
 
