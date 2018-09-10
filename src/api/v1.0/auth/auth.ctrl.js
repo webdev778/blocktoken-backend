@@ -120,7 +120,6 @@ exports.localLogin = async (ctx) => {
       ctx.status = 403;
       return;
     }
-
     const validated = user.validatePassword(password);
     if (!validated) {
       // wrong password

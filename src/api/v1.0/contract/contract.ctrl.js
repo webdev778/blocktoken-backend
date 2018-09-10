@@ -6,7 +6,7 @@ const CrowdsaleContract = require('db/models/crowdsale_contract');
 
 exports.tokenRegist = async (ctx)=> {
   const { user } = ctx.request;
-  console.log(user);
+
 
   let {
     publicTokenName,
@@ -42,7 +42,6 @@ exports.tokenRegist = async (ctx)=> {
 
 exports.getTokenList = async (ctx)=> {
   const { user } = ctx.request;
-  console.log(user);
   
   try {
     const tokens = await TokenContract.find({
@@ -59,7 +58,6 @@ exports.getTokenList = async (ctx)=> {
 
 exports.addTeamMember = async (ctx)=> {
   const { user } = ctx.request;
-  console.log(user);
 
   const { id } = ctx.params;
   const { team_addresses } = ctx.request.body;
@@ -89,7 +87,7 @@ exports.addTeamMember = async (ctx)=> {
 
 exports.getTokenContractByAddress = async (ctx)=> {
   const { user } = ctx.request;
-  console.log(user);
+
   const { address: contract_address } = ctx.params;
   
   try {
@@ -111,7 +109,7 @@ exports.getTokenContractByAddress = async (ctx)=> {
 
 exports.crowdsaleRegist = async (ctx)=> {
   const { user } = ctx.request;
-  console.log(user);
+
   const { tokenAddress } = ctx.request.body;
 
   let {
@@ -193,7 +191,6 @@ exports.crowdsaleRegist = async (ctx)=> {
 
 exports.getCrowdsaleList = async (ctx)=> {
   const { user } = ctx.request;
-  console.log(user);
   
   try {
     const contracts = await CrowdsaleContract.find({
@@ -210,7 +207,6 @@ exports.getCrowdsaleList = async (ctx)=> {
 
 exports.addWhiteList = async (ctx)=> {
   const { user } = ctx.request;
-  console.log(user);
 
   const { id } = ctx.params;
   const { whitelist_addresses } = ctx.request.body;
@@ -241,7 +237,6 @@ exports.addWhiteList = async (ctx)=> {
 
 exports.getCrowdsaleContractByAddress = async (ctx)=> {
   const { user } = ctx.request;
-  console.log(user);
   const { address: contract_address } = ctx.params;
   
   try {

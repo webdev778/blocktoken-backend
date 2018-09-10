@@ -112,6 +112,11 @@ User.methods.validatePassword = function(password) {
   return this.password === hashed;
 };
 
+User.methods.savePassword = async function(password) {
+  this.password = hash(password);
+};
+
+
 User.methods.generateToken = function() {
   const { _id, displayName } = this;
   return token.generateToken({
