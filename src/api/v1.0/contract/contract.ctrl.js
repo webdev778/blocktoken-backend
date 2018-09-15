@@ -42,7 +42,7 @@ exports.tokenRegist = async (ctx)=> {
 
 exports.getTokenList = async (ctx)=> {
   const { user } = ctx.request;
-  
+  console.log(user);
   try {
     const tokens = await TokenContract.find({
       user_id: user._id

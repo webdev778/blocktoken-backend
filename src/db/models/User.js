@@ -22,6 +22,7 @@ const User = new Schema({
   address: String,
   company: String,
   website: String,
+  auth_status: Number,
   social: {
     facebook: {
       id: String,
@@ -72,7 +73,8 @@ User.statics.localRegister = async function({ displayName, email, password, full
     fullname,
     address,
     company,
-    website
+    website,
+    auth_status: 0
   });
 
   return user.save();
@@ -96,6 +98,7 @@ User.statics.socialRegister = async function({
     address,
     company,
     website,
+    auth_status: 0,
     social: {
       [provider]: {
         id: socialId,

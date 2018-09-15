@@ -17,9 +17,14 @@
   },
   "homepage": "https://github.com/yaodev778/ICOBackend#readme",
   "dependencies": {
+    "aws-sdk": "^2.315.0",
+    "bluebird": "^3.5.2",
     "cross-env": "^5.2.0",
     "dotenv": "^6.0.0",
+    "express": "^4.16.3",
     "fb": "^2.0.0",
+    "file-type": "^9.0.0",
+    "fs": "^0.0.1-security",
     "googleapis": "22.2.0",
     "joi": "^13.6.0",
     "jsonwebtoken": "^8.3.0",
@@ -32,6 +37,7 @@
     "moment": "^2.22.2",
     "mongoose": "^5.2.9",
     "mongoose-double": "^0.0.1",
+    "multiparty": "^4.2.1",
     "nodemon": "^1.18.3"
   }
 }

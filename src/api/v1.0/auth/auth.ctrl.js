@@ -134,11 +134,12 @@ exports.localLogin = async (ctx) => {
       maxAge: 1000 * 60 * 60 * 24 * 7
     });
 
-    const { displayName, _id } = user;
+    const { auth_status, displayName, _id } = user;
     
     ctx.body = {
       _id,
-      displayName
+      displayName,
+      auth_status
     };
   } catch (e) {
     ctx.throw(e, 500);
@@ -200,8 +201,9 @@ exports.socialLogin = async (ctx) => {
     } catch (e) {
       ctx.throw(e, 500);
     }
-    const { _id, displayName } = user;
+    const { _id, displayName, auth_status } = user;
     ctx.body = {
+      auth_status,
       displayName,
       _id
     };
@@ -261,7 +263,7 @@ exports.socialRegister = async (ctx) => {
     address: Joi.string(),
     company: Joi.string(),
     website: Joi.string(),
-    provider: Joi.string().allow('facebook', 'google').required(),
+    provider: Joi.string().allow('facebook', 'google', 'linkedin').required(),
     accessToken: Joi.string().required()
   });
 

@@ -1,7 +1,7 @@
 const Joi = require('joi');
 const User = require('db/models/User');
 
-const projection = ['id', 'displayName', 'email', 'fullname', 'address', 'company', 'website'];
+const projection = ['id', 'displayName', 'email', 'fullname', 'address', 'company', 'website', 'auth_status'];
 const project_user = ['id', 'fullname', 'address', 'company', 'website'];
 const project_password = ['id', 'password'];
 
@@ -25,6 +25,38 @@ exports.getUser = async (ctx)=> {
   try {
     const user = await User.findOne({_id}, project_user);
     
+    ctx.body = {
+      user
+    }
+  } catch (e) {
+    ctx.throw(e, 500);
+  }
+}
+
+exports.setReview = async (ctx)=> {
+  const { user } = ctx.request;
+  const { _id } = user;
+
+  try {
+    const user = await User.findOne({_id});
+    user.auth_status = user.auth_status + 1;
+    await user.save();
+    ctx.body = {
+      _id:user._id
+    }
+  } catch (e) {
+    ctx.throw(e, 500);
+  }
+}
+
+exports.setApprove = async (ctx)=> {
+  const { user } = ctx.request;
+  const { _id } = user;
+
+  try {
+    const user = await User.findOne({_id});
+    user.auth_status = user.auth_status + 2;
+    await user.save();
     ctx.body = {
       user
     }
