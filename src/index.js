@@ -29,7 +29,9 @@ app.use((ctx, next) => {
     'localhost:4000',
     '192.169.198.141:4000'  // aws hosting server info
   ];
-  const origin = ctx.header['origin'];
+  const origin = ctx.header['origin']; 
+  ctx.response.set('Access-Control-Allow-Origin', origin);
+/*
   allowedHosts.every(el => {
     if (!origin) return false;
     if (origin.indexOf(el) !== -1) {
@@ -38,6 +40,7 @@ app.use((ctx, next) => {
     }
     return true;
   });
+*/
   ctx.set('Access-Control-Allow-Credentials', true);
   ctx.response.set('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, x-timebase');
   return next();
