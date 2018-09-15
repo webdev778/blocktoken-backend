@@ -38,6 +38,7 @@
     "mongoose": "^5.2.9",
     "mongoose-double": "^0.0.1",
     "multiparty": "^4.2.1",
+    "node-linked-in": "^0.0.7",
     "nodemon": "^1.18.3"
   }
 }

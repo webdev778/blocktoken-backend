@@ -3,6 +3,8 @@ const FB = require('fb');
 const google = require('googleapis');
 
 const plus = google.plus('v1');
+const Linkedin = require('node-linked-in');
+const linkedin = new Linkedin();
 
 function getFacebookProfile(accessToken) {
   return FB.api('me', { fields: ['name, email'], access_token: accessToken }).then(
@@ -35,10 +37,35 @@ function getGoogleProfile(accessToken) {
   });
 }
 
+function getLinkedInProfile(accessToken) {
+  return new Promise((resolve, reject) => {
+    linkedin.authenticate({
+      token: accessToken
+    });
+
+    linkedin.people.getCurrent({
+      "url-field-selector": ':(id,first-name,last-name,email-address)'}, 
+      (err, auth) => {
+        if(err) reject(err);
+
+        const {
+          id, firstName, lastName, emailAddress
+        } = auth;
+
+        resolve({
+          id,
+          name: firstName+" "+lastName,
+          email: emailAddress
+        });        
+      });
+  });
+}
+
 exports.getProfile = (provider, accessToken) => {
   const getters = {
     google: getGoogleProfile,
-    facebook: getFacebookProfile
+    facebook: getFacebookProfile,
+    linkedin: getLinkedInProfile
   };
   
   return getters[provider](accessToken);
