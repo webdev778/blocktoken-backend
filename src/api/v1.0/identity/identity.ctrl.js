@@ -8,10 +8,10 @@ const multiparty = require('multiparty');
 const Ident = require('db/models/Identity');
 const Bank = require('db/models/Bank');
 
-AWS.config.update({
-    accessKeyId: "AKIAJWHGSF4KEM47PZIA",
-    secretAccessKey: "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"
-});
+const { AWS_ACCESS_KEY_ID: accessKeyId } = process.env;
+const { AWS_SECRET_ACCESS_KEY: secretAccessKey } = process.env;
+
+AWS.config.update({accessKeyId, secretAccessKey});
 
 AWS.config.setPromisesDependency(bluebird);
 
@@ -30,23 +30,29 @@ const uploadFile = (buffer, name, type) => {
 
 exports.identSave = async (ctx)=> {
     const { user } = ctx.request;
-  
-    let {
-        firstname,
-        lastname,
-        gender,
-        birthday,
-        country,
-        type,
-        number,
-        expires,
-        front,
-        end
-    } = ctx.request.body;
-  
-  
+    console.log('-------------------------');
     try{
         await Ident.deleteOne({user_id:user._id});
+        console.log("TEST");
+        const form = new multiparty.Form();
+        const {fields: {
+            firstname,
+            lastname,
+            gender,
+            birthday,
+            country,
+            type,
+            number,
+            expires,
+        }, files} = await form.parse(ctx.request);
+        console.log(fields);
+        console.log(files);
+        const path = files.file[0].path;
+        const buffer = fs.readFileSync(path);
+        const filetype = fileType(buffer);
+        const timestamp = Date.now().toString();
+        const fileName = `kyc-data/${timestamp}-lg`;
+        const data = await uploadFile(buffer, fileName, filetype);            
 
         const ident = new Ident({
             user_id:user._id,
@@ -58,18 +64,19 @@ exports.identSave = async (ctx)=> {
             id_type:type,
             id_number:number,
             id_expires:expires,
-            id_front:front,
-            id_end:end,
+            id_front:data,
         });
-    
+
         await ident.save();
-        
+    
         ctx.body = {
             _id: ident._id
         }
-    } catch (e) {
-        ctx.throw(e, 500);
+
+    } catch (error) {
+        ctx.throw(error, 500);
     }
+    
 }
 
 exports.bankSave = async (ctx)=> {

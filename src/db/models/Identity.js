@@ -39,12 +39,11 @@ var identSchema = new Schema({
       required: true,
     },
     id_front: {
-      type: String,
+      type: Object,
       required: true,
     },
     id_end: {
-      type: String,
-      required: true,
+      type: Object,
     }
   });
 

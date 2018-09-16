@@ -9,7 +9,7 @@ identity.get('/', ctx => {
     
 })
 
-identity.post('/idreg', needAuth, identityCtrl.identSave)
+identity.post('/idreg', identityCtrl.identSave)
 identity.post('/bankreg', needAuth, identityCtrl.bankSave)
 identity.get('/getid/:user_id', needAuth, identityCtrl.getIdent)
 identity.get('/getbank/:user_id', needAuth, identityCtrl.getBank)
