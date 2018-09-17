@@ -3,7 +3,7 @@ const AWS = require('aws-sdk');
 const fs = require('fs');
 const fileType = require('file-type');
 const bluebird = require('bluebird');
-const multiparty = require('multiparty');
+const asyncBusboy = require('async-busboy');
 
 const Ident = require('db/models/Identity');
 const Bank = require('db/models/Bank');
@@ -28,14 +28,34 @@ const uploadFile = (buffer, name, type) => {
     return s3.upload(params).promise();
 }
 
+// const uploadIdentity = async (file) => {
+
+//     if (!file) 
+//         throw 400;
+
+//     const path = file.path;
+//     const buffer = fs.readFileSync(path);
+//     const filetype = fileType(buffer);
+//     console.log(filetype);
+
+//     if(filetype === null){
+//         throw 400;
+//     }
+
+//     const timestamp = Date.now().toString();
+//     const fileName = `kyc-data/${timestamp}-lg`;
+//     const {key} = await uploadFile(buffer, fileName, filetype);   
+
+//     return key;
+// }
+
 exports.identSave = async (ctx)=> {
     const { user } = ctx.request;
     console.log('-------------------------');
     try{
         await Ident.deleteOne({user_id:user._id});
-        console.log("TEST");
-        const form = new multiparty.Form();
-        const {fields: {
+        const {files, fields} = await asyncBusboy(ctx.req);
+        const {
             firstname,
             lastname,
             gender,
@@ -43,16 +63,50 @@ exports.identSave = async (ctx)=> {
             country,
             type,
             number,
-            expires,
-        }, files} = await form.parse(ctx.request);
-        console.log(fields);
-        console.log(files);
-        const path = files.file[0].path;
+            expires
+        } = fields;
+        console.log(fields);      
+
+        if(files.length != 2) {
+            ctx.status = 400;
+            return;
+        }
+
+        // upload front image to aws s3
+        const path = files[0].path;
         const buffer = fs.readFileSync(path);
         const filetype = fileType(buffer);
+        console.log(filetype);
+
+        if(filetype === null){
+            ctx.status = 400;
+            return;
+        }
+
         const timestamp = Date.now().toString();
         const fileName = `kyc-data/${timestamp}-lg`;
-        const data = await uploadFile(buffer, fileName, filetype);            
+        const {key : front_s3_key} = await uploadFile(buffer, fileName, filetype);            
+       
+        console.log('front file upload success');
+        console.log(`s3 key = ${front_s3_key}`);
+
+        // upload back image to aws s3
+        const path1 = files[1].path;
+        const buffer1 = fs.readFileSync(path1);
+        const filetype1 = fileType(buffer1);
+        console.log(filetype1);
+
+        if(filetype1 === null){
+            ctx.status = 400;
+            return;
+        }
+
+        const timestamp1 = Date.now().toString();
+        const fileName1 = `kyc-data/${timestamp}-lg`;
+        const {key : back_s3_key} = await uploadFile(buffer1, fileName1, filetype1);            
+
+        console.log('back file upload success');        
+        console.log(`s3 key = ${back_s3_key}`);
 
         const ident = new Ident({
             user_id:user._id,
@@ -64,7 +118,8 @@ exports.identSave = async (ctx)=> {
             id_type:type,
             id_number:number,
             id_expires:expires,
-            id_front:data,
+            id_front:front_s3_key,
+            id_bacak:back_s3_key
         });
 
         await ident.save();

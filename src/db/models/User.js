@@ -31,7 +31,11 @@ const User = new Schema({
     google: {
       id: String,
       accessToken: String
-    }
+    },
+    linkedin: {
+      id: String,
+      accessToken: String
+    }    
   },
   password: String,
   createdAt: {
