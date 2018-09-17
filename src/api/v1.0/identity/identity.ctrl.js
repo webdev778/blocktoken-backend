@@ -28,26 +28,26 @@ const uploadFile = (buffer, name, type) => {
     return s3.upload(params).promise();
 }
 
-// const uploadIdentity = async (file) => {
+const uploadIdentity = async (file) => {
 
-//     if (!file) 
-//         throw 400;
+    if (!file) 
+        return null;
 
-//     const path = file.path;
-//     const buffer = fs.readFileSync(path);
-//     const filetype = fileType(buffer);
-//     console.log(filetype);
+    const path = file.path;
+    const buffer = fs.readFileSync(path);
+    const filetype = fileType(buffer);
+    console.log(filetype);
 
-//     if(filetype === null){
-//         throw 400;
-//     }
+    if(filetype === null){
+        return null;
+    }
 
-//     const timestamp = Date.now().toString();
-//     const fileName = `kyc-data/${timestamp}-lg`;
-//     const {key} = await uploadFile(buffer, fileName, filetype);   
+    const timestamp = Date.now().toString();
+    const fileName = `kyc-data/${timestamp}-lg`;
+    const {key} = await uploadFile(buffer, fileName, filetype);   
 
-//     return key;
-// }
+    return key;
+}
 
 exports.identSave = async (ctx)=> {
     const { user } = ctx.request;
@@ -73,37 +73,21 @@ exports.identSave = async (ctx)=> {
         }
 
         // upload front image to aws s3
-        const path = files[0].path;
-        const buffer = fs.readFileSync(path);
-        const filetype = fileType(buffer);
-        console.log(filetype);
-
-        if(filetype === null){
+        const front_s3_key = await uploadIdentity(files[0]);
+        if(front_s3_key === null){
             ctx.status = 400;
             return;
-        }
-
-        const timestamp = Date.now().toString();
-        const fileName = `kyc-data/${timestamp}-lg`;
-        const {key : front_s3_key} = await uploadFile(buffer, fileName, filetype);            
+        }           
        
         console.log('front file upload success');
         console.log(`s3 key = ${front_s3_key}`);
 
         // upload back image to aws s3
-        const path1 = files[1].path;
-        const buffer1 = fs.readFileSync(path1);
-        const filetype1 = fileType(buffer1);
-        console.log(filetype1);
-
-        if(filetype1 === null){
+        const back_s3_key = await uploadIdentity(files[1]);        
+        if(back_s3_key === null){
             ctx.status = 400;
             return;
-        }
-
-        const timestamp1 = Date.now().toString();
-        const fileName1 = `kyc-data/${timestamp}-lg`;
-        const {key : back_s3_key} = await uploadFile(buffer1, fileName1, filetype1);            
+        }           
 
         console.log('back file upload success');        
         console.log(`s3 key = ${back_s3_key}`);
