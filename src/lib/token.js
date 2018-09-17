@@ -5,7 +5,7 @@ function generateToken(payload, subject) {
   return new Promise(
     (resolve, reject) => {
       jwt.sign(payload, secret, {
-        issuer: 'bitimulate.com',
+        issuer: 'dash.blocktoken.ai',
         expiresIn: '7d',
         subject
       }, (error, token) => {

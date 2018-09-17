@@ -1,7 +1,12 @@
 const Joi = require('joi');
 const User = require('db/models/User');
+const SysToken = require('db/models/SysToken');
 // const { optionsPerCurrency } = require('lib/variables');
 const { getProfile } = require('lib/social');
+const { sendSignupVerification } = require('lib/sendMail');
+const crypto = require('crypto');
+const log = require('lib/log');
+
 
 exports.checkEmail = async (ctx) => {
   const { email } = ctx.params;
@@ -90,6 +95,18 @@ exports.localRegister = async (ctx) => {
       httpOnly: true,
       maxAge: 1000 * 60 * 60 * 24 * 7
     });
+
+    // Create a verification token for this user
+    const token = new SysToken({ _userId: user._id, token: crypto.randomBytes(16).toString('hex') });
+ 
+    // Save the verification token
+    await token.save();
+
+    // Send the email    
+    await sendSignupVerification(fullname, fullname, email, token.token);
+    ctx.status = 200;
+    ctx.body = `A verification email has been sent to ${email} .`;
+    
   } catch (e) {
     ctx.throw(e, 500);
   }
@@ -388,3 +405,100 @@ exports.logout = (ctx) => {
   });
   ctx.status = 204;
 };
+
+exports.verifyEmail = async (ctx) => {
+  log.info('VERIFYEMAIL requested');
+  const { body } = ctx.request;
+  const schema = Joi.object({
+    email: Joi.string().email().required(),
+  });
+
+  const result = Joi.validate(body, schema);
+  const { token } = ctx.params;
+
+  log.info(token);
+  if (result.error) {
+    ctx.status = 400;
+    log.info(result.error); 
+    return;
+  }
+
+  const {
+    email,
+  } = ctx.request;
+
+  try{
+    // Find a matching token
+    const sysToken = await SysToken.findOne({ token }).exec();
+
+    if(!sysToken) {
+      ctx.status = 403;
+      return;
+    }
+
+    // If we found a token, find a matching user
+    const user = await User.findOne({ _id: sysToken._userId });
+
+    if (!user) {
+      ctx.status = 400;
+      ctx.body = { msg:'We were unable to find a user for this token.' };
+      return;
+    }
+
+    if (user.auth_status) {
+      ctx.status = 400;
+      ctx.body = { type: 'already-verified', msg: 'This user has already been verified.' };    
+      return;
+    }
+
+    // Verify and save the user
+    user.auth_status = 1;
+    await user.save();
+    
+    ctx.body = "The account has been verified. Please log in.";
+  }catch(e){
+    ctx.throw(e, 500);
+  }
+}
+
+exports.resendEmail = async (ctx) => {
+  const { body } = ctx.request;
+  const schema = Joi.object({
+    email: Joi.string().email().required(),
+  });
+
+  const result = Joi.validate(body, schema);
+
+  if (result.error) {
+    ctx.status = 400;
+    return;
+  }
+
+  const {
+    email,
+  } = ctx.request;
+
+  try{
+    const user = await User.findByEmail(email);
+
+    if(!user){
+      ctx.status = 400;      
+    }
+
+    if(user.auth_status){
+      ctx.status = 400;
+      ctx.body = { msg: 'This account has already been verified. Please log in.' };
+      return;
+    }
+
+    const token = new SysToken({ _userId: user._id, token: crypto.randomBytes(16).toString('hex') });
+
+    await token.save();
+    
+    await sendSignupVerification(user.fullname, '', email, token.token);
+    ctx.body = `A verification email has been sent to ${email}.`;
+  }catch(e){
+    ctx.throw(e, 500);
+  }
+}
+

@@ -16,5 +16,7 @@ auth.post('/login/local', authCtrl.localLogin);
 auth.post('/login/:provider(facebook|google|linkedin)', authCtrl.socialLogin);
 // auth.get('/check', authCtrl.check);
 auth.post('/logout', authCtrl.logout);
+auth.post('/confirmation/:token', authCtrl.verifyEmail);
+auth.post('/resend', authCtrl.resendEmail);
 
 module.exports = auth;

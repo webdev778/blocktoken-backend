@@ -42,6 +42,9 @@ const User = new Schema({
     type: Date,
     default: Date.now
   },
+  roles: [{ type: 'String' }],
+  passwordResetToken: String,
+  passwordResetExpires: Date
 });
 
 User.statics.findByEmail = function(email) {
