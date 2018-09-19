@@ -151,12 +151,13 @@ exports.localLogin = async (ctx) => {
       maxAge: 1000 * 60 * 60 * 24 * 7
     });
 
-    const { auth_status, displayName, _id } = user;
+    const { auth_status, kyc_status, displayName, _id } = user;
     
     ctx.body = {
       _id,
       displayName,
-      auth_status
+      auth_status,
+      kyc_status
     };
   } catch (e) {
     ctx.throw(e, 500);
@@ -218,9 +219,10 @@ exports.socialLogin = async (ctx) => {
     } catch (e) {
       ctx.throw(e, 500);
     }
-    const { _id, displayName, auth_status } = user;
+    const { _id, displayName, auth_status, kyc_status } = user;
     ctx.body = {
       auth_status,
+      kyc_status,
       displayName,
       _id
     };

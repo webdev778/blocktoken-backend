@@ -50,8 +50,8 @@ const uploadIdentity = async (file) => {
 }
 
 exports.identSave = async (ctx)=> {
+
     const { user } = ctx.request;
-    console.log('-------------------------');
     try{
         await Ident.deleteOne({user_id:user._id});
         const {files, fields} = await asyncBusboy(ctx.req);
@@ -64,8 +64,7 @@ exports.identSave = async (ctx)=> {
             type,
             number,
             expires
-        } = fields;
-        console.log(fields);      
+        } = fields;           
 
         if(files.length != 2) {
             ctx.status = 400;
@@ -103,7 +102,7 @@ exports.identSave = async (ctx)=> {
             id_number:number,
             id_expires:expires,
             id_front:front_s3_key,
-            id_bacak:back_s3_key
+            id_back:back_s3_key
         });
 
         await ident.save();
@@ -120,21 +119,29 @@ exports.identSave = async (ctx)=> {
 
 exports.bankSave = async (ctx)=> {
     const { user } = ctx.request;
-  
-    let {
-        address,
-        city,
-        state,
-        postcode,
-        country,
-        bankimg,
-        institution_name,
-        doc_type,
-        issued_date
-    } = ctx.request.body;
-  
+
     try{
         await Bank.deleteOne({user_id:user._id});
+
+        const {files, fields} = await asyncBusboy(ctx.req);
+        const {
+            address,
+            city,
+            state,
+            postcode,
+            country,
+            institution_name,
+            doc_type,
+            issued_date
+        } = fields; 
+
+        // upload bank bill to aws s3
+        const bank_key = await uploadIdentity(files[0]);
+        if(bank_key === null){
+            ctx.status = 400;
+            return;
+        }
+
         const bank = new Bank({
             user_id:user._id,
             address:address,
@@ -142,7 +149,7 @@ exports.bankSave = async (ctx)=> {
             state:state,
             postcode:postcode,
             country:country,
-            bankimg:bankimg,
+            bankimg:bank_key,
             institution_name:institution_name,
             doc_type:doc_type,
             issued_date:issued_date,
@@ -160,11 +167,10 @@ exports.bankSave = async (ctx)=> {
 
 exports.getIdent = async (ctx)=> {
   const {user_id} = ctx.params;
-  console.log(user_id);
 
   try {
     const ident = await Ident.findOne({user_id});
-    
+    console.log(ident);
     ctx.body = {
       ident
     }

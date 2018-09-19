@@ -44,6 +44,7 @@ var identSchema = new Schema({
     },
     id_back: {
       type: Object,
+      required: true,
     }
   });
 

@@ -9,6 +9,6 @@ users.get('/info', needAuth, usersCtrl.getUser);
 users.put('/save', needAuth, usersCtrl.setUser);
 users.put('/cert', needAuth, usersCtrl.setPassword);
 users.put('/review', needAuth, usersCtrl.setReview);
-users.put('/approve', needAuth, usersCtrl.setApprove);
+users.put('/approve/:user_id', needAuth, usersCtrl.setApprove);
 
 module.exports = users;
