@@ -408,24 +408,23 @@ exports.logout = (ctx) => {
 
 exports.verifyEmail = async (ctx) => {
   log.info('VERIFYEMAIL requested');
-  const { body } = ctx.request;
-  const schema = Joi.object({
-    email: Joi.string().email().required(),
-  });
+  // const { body } = ctx.request;
+  // const schema = Joi.object({
+  //   email: Joi.string().email().required(),
+  // });
 
-  const result = Joi.validate(body, schema);
+  // const result = Joi.validate(body, schema);
   const { token } = ctx.params;
 
   log.info(token);
-  if (result.error) {
+  if (!token) {
     ctx.status = 400;
-    log.info(result.error); 
     return;
   }
 
-  const {
-    email,
-  } = ctx.request;
+  // const {
+  //   email,
+  // } = ctx.request;
 
   try{
     // Find a matching token
