@@ -107,7 +107,7 @@ User.statics.socialRegister = async function({
     address,
     company,
     website,
-    auth_status: 0,
+    auth_status: 1,
     kyc_status: 0,
     social: {
       [provider]: {

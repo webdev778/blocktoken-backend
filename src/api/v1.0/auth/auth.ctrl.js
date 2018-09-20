@@ -114,7 +114,7 @@ exports.localRegister = async (ctx) => {
 
 exports.localLogin = async (ctx) => {
   const { body } = ctx.request;
-  console.log(body);
+
   const schema = Joi.object({
     email: Joi.string().email().required(),
     password: Joi.string().min(6).max(30)
@@ -140,7 +140,7 @@ exports.localLogin = async (ctx) => {
     const validated = user.validatePassword(password);
     if (!validated) {
       // wrong password
-      ctx.status = 403;
+      ctx.status = 402;
       return;
     }
 
@@ -198,7 +198,7 @@ exports.socialLogin = async (ctx) => {
     id, name, email
   } = profile;
   console.log(`Social Info, Provider:${provider}`);
-  console.log(profile);
+
   // check account existancy
   let user = null;
   try {
@@ -219,11 +219,12 @@ exports.socialLogin = async (ctx) => {
     } catch (e) {
       ctx.throw(e, 500);
     }
-    const { _id, displayName, auth_status, kyc_status } = user;
+    const { _id, displayName, auth_status, kyc_status, email } = user;
     ctx.body = {
       auth_status,
       kyc_status,
       displayName,
+      email,
       _id
     };
     return;
@@ -442,13 +443,11 @@ exports.verifyEmail = async (ctx) => {
 
     if (!user) {
       ctx.status = 400;
-      ctx.body = { msg:'We were unable to find a user for this token.' };
       return;
     }
 
     if (user.auth_status) {
-      ctx.status = 400;
-      ctx.body = { type: 'already-verified', msg: 'This user has already been verified.' };    
+      ctx.status = 401;
       return;
     }
 
@@ -477,18 +476,16 @@ exports.resendEmail = async (ctx) => {
 
   const {
     email,
-  } = ctx.request;
+  } = body;
 
   try{
     const user = await User.findByEmail(email);
-
     if(!user){
       ctx.status = 400;      
     }
 
     if(user.auth_status){
-      ctx.status = 400;
-      ctx.body = { msg: 'This account has already been verified. Please log in.' };
+      ctx.status = 401;
       return;
     }
 
