@@ -70,40 +70,355 @@ module.exports.sendSignupVerification = (firstName, lastName, email, code) => {
     subject: 'Email Verification',
     from: `${senderTitle} <${senderSupport}>`,
     body: `
-    <div style=" background: '#eceff4'; padding: 50px 20px; color: rgb(255, 255, 255); ">
-    <div style="max-width: 700px; margin: 0px auto; font-size: 14px;">
-      <table cellpadding="0" cellspacing="0" style="width: 100%; margin-bottom: 20px; border: 0px; background: rgb(178,36, 177);">
-        <tbody>
-          <tr>
-            <td style="vertical-align: top;"><img src="https://s3.amazonaws.com/blocktoken.ai/assets/logo.png" alt="Blocktoken AI Platform" style="height: 40px;"></td>
-            <td style="text-align: right; vertical-align: middle;"><span style="color: rgb(255, 255, 255);"></span></td>
-          </tr>
-        </tbody>
-      </table>
-      <div style="padding: 40px 40px 20px; background: rgb(255, 255, 255); border-radius: 6px; box-shadow: 0 3px 12px 0 rgba(103, 103, 103, 0.24), 0 0 2px 0 rgba(0, 0, 0, 0.12); box-sizing: border-box;">
-        <table cellpadding="0" cellspacing="0" style="width: 100%; border: 0px;">
-          <tbody>
-            <tr>
-              <td>
-                <p>Dear <b>${firstName} ${lastName}</b>,</p>
-                <p>You have successfully created a Blocktoken Dashboard account.</p>
-                <p>Please click on the link below to verify your email address and complete your registration.</p>
-                <a href="${siteLink}/confirmation/${code}"
-                style="display: inline-block; padding: 11px 30px 6px; margin: 20px 0px 30px; font-size: 15px; color: rgb(255, 255, 255); background: rgb(14, 190, 74); border-radius: 5px; text-decoration: none">
-                Verify your email address</a>
-                <p>or copy and paste this link into your browser:</p>
-                <a href="${siteLink}/confirmation/${code}" style="text-align:left; display:block;">${siteLink}/confirmation/${code}</a>
-                <p>Best Regards~</p>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-      <div style="text-align: center; font-size: 12px; color: rgb(81, 77, 106); margin-top: 20px;">
-        <p>Blocktoken, The Token Automation Platform<br>Powered by Blocktoken Dashboard</p>
-      </div>
-    </div>
-  </div>
+    <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+    <html xmlns="http://www.w3.org/1999/xhtml">
+    
+        <head>
+            <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+            <title>Blocktoken Verification Email</title>
+            <style type="text/css">
+                .applelink a {
+                    text-decoration: none !important;
+                    color: #FFFFFF !important;
+                }
+    
+                .applelink2 a {
+                    text-decoration: none;
+                    color: #000000;
+                }
+    
+                img {
+                    max-width: 100%;
+                    max-height: 100%;
+                }
+    
+                ul,
+                ul * {
+                    list-style-type: none !important;
+                }
+    
+                @media screen and (max-width: 599px) {
+    
+                    table[class=emailwrapto100pc],
+                    td[class=emailwrapto100pc],
+                    img[class=emailwrapto100pc] {
+                        width: 100% !important;
+                        height: auto !important;
+                        padding-left: 0px !important;
+                        padding-right: 0px !important;
+                        margin: 0px !important;
+                        box-shadow: none !important;
+                        box-shadow: 0 0 0 transparent !important;
+                    }
+    
+                    td[class=emailwrapto100pc] {
+                        display: inline-block !important;
+                        box-shadow: none !important;
+                        box-shadow: 0 0 0 transparent !important;
+    
+                    }
+    
+                    *[class="gmailfix"] {
+                        display: none !important;
+                    }
+    
+                    .divider {
+                        display: inline-block !important;
+                        width: 100% !important;
+                        height: 1px !important;
+                        padding-left: 0px !important;
+                        padding-right: 0px !important;
+                        margin: 0px !important;
+                    }
+    
+                    table[class=emailwrapto50pc],
+                    td[class=emailwrapto50pc],
+                    img[class=emailwrapto50pc] {
+                        width: 50% !important;
+                        height: 100% !important;
+                        padding: 0px !important;
+                        border: 0 !important;
+    
+                    }
+    
+                    td[class=hr] {
+                        width: 100% !important;
+                        height: 2px !important;
+                    }
+    
+                    table[class=center],
+                    td[class=center] {
+                        text-align: center !important;
+                        padding: 0px !important;
+                    }
+    
+                    td[class=auto-height] {
+                        height: auto !important;
+                    }
+    
+                    .hide {
+                        display: none !important;
+                    }
+    
+                    .center {
+                        text-align: center !important;
+                    }
+    
+                    .center img {
+                        display: inline-block !important;
+                    }
+    
+                    .left {
+                        text-align: left !important;
+                    }
+    
+                    .left img {
+                        display: inline-block !important;
+                    }
+    
+                    .right {
+                        text-align: right !important;
+                    }
+    
+                    .right img {
+                        display: inline-block !important;
+                    }
+    
+                    .auto-width {
+                        width: auto !important;
+                        max-width: 100% !important;
+                    }
+    
+                    .fluid-height {
+                        height: auto !important;
+                        padding: 0 !important;
+                    }
+    
+                    .padding-horz-20 {
+                        padding-left: 20px !important;
+                        padding-right: 20px !important;
+                    }
+    
+                    .padding-vert-10 {
+                        padding-top: 10px !important;
+                        padding-bottom: 10px !important;
+                    }
+    
+                    .padding-left-0 {
+                        padding-left: 0 !important;
+                    }
+    
+                    .padding-top-10 {
+                        padding-top: 10px !important;
+                    }
+    
+                    .footer-imgwrap {
+                        width: 201px;
+                        /* Adjust in inspector until images align*/
+                    }
+    
+                    .small-cta {
+                        width: 250px !important;
+                    }
+    
+                    .side {
+                        width: 16px !important;
+                    }
+    
+                    .gmailignore {
+                        max-width: 100% max-height: 100%;
+                    }
+    
+                    /* this error breaks the styles for gmail...*/
+                }
+            </style>
+        </head>
+    
+        <body style="width: 100%; padding: 0; margin: 0;" bgcolor="#f6f6f6">
+            <table width="100%" border="0" cellspacing="0" cellpadding="0" bgcolor="#f6f6f6" style="-webkit-text-adjust:none;">
+                <tr>
+                    <td valign="top" align="center">
+                        <table width="100%" border="0" cellspacing="0" cellpadding="0" align="center" class="emailwrapto100pc"
+                            style="background-image: linear-gradient(to bottom, #0086fc, #0086fc 450px, #f6f6f6 450px);">
+    
+                            <!-- pre-header -->
+                            <tr>
+                                <td>
+                                    <table border="0" cellspacing="0" cellpadding="0" class="emailwrapto100pc" width="100%"
+                                        align="center" bgcolor="#0086fc">
+                                        <tr>
+                                            <td height="50"></td>
+                                        </tr>
+                                        <tr>
+                                            <td align="center">
+                                                <table>
+                                                    <tr>
+                                                        <td class="emailwrapto100pc" width="600" align="center">
+                                                            <a href="https://dash.blocktoken.ai">
+                                                                <img src="https://s3.amazonaws.com/blocktoken.ai/assets/logo.png"
+                                                                    width="210" alt="BlockToken logo" style="border: 0; display: block; font-size: 0; line-height: 0;">
+                                                            </a>
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                            </td>
+                                        </tr>
+    
+                                        <tr>
+                                            <td height="20"></td>
+                                        </tr>
+                                    </table>
+                                </td>
+                            </tr>
+    
+                            <!-- end pre-header -->
+    
+                            <!-- body block -->
+    
+                            <tr>
+                                <td height="40"></td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <table align="center" border="0" cellpadding="0" cellspacing="0" class="emailwrapto100pc"
+                                        width="600" bgcolor="ffffff" style="padding: 40px 20px; box-shadow:0 3px 12px 0 rgba(103, 103, 103, 0.24), 0 0 2px 0 rgba(0, 0, 0, 0.12);">
+                                        <tr>
+                                            <td>
+                                                <table align="center" border="0" cellpadding="0" cellspacing="0" class="emailwrapto100pc"
+                                                    width="600">
+                                                    <tr>
+                                                        <td width="40"></td>
+                                                        <td align="center">
+                                                            <table>
+                                                                <tr>
+                                                                    <td align="center" class="emailwrapto100pc" width="450"
+                                                                        style="font-family: Arial; font-size: 30px; text-align: center; color: #2e4255;">
+                                                                        Email Confirmation
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td height="20"></td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td align="center" class="emailwrapto100pc" width="450"
+                                                                        style="font-family: Arial;font-size: 18px; line-height: 1.7;text-align: left; color: #2e4255">
+                                                                        Dear <span style="color:#0099f6;"><strong>${firstName}
+                                                                                ${lastName}</strong></span>,
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td align="center" class="emailwrapto100pc" width="450"
+                                                                        style="font-family: Arial;font-size: 18px; line-height: 1.7;text-align: left; color: #2e4255">
+                                                                        You have succesfully created a Blocktoken account.
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td height="20"></td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td align="center" class="emailwrapto100pc" width="450"
+                                                                        style="font-family: Arial;font-size: 18px; line-height: 1.7;text-align: left; color: #2e4255">
+                                                                        Please click the link below to verify your email
+                                                                        address and complete your registration.
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td height="20"></td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td align="center">
+                                                                        <a href="${siteLink}/confirmation/${code}" style="text-decoration: none; color: #ffffff !important;" class="applelink">
+                                                                            <table align="center" border="0" cellpadding="0"
+                                                                                cellspacing="0" width="320">
+                                                                                <tr>
+                                                                                    <td align="center" width="320" bgcolor="#0099f6"
+                                                                                        style="font-family: Arial; font-size: 18px; text-align: center; color: #ffffff; padding: 15px 15px;">
+                                                                                        <a href="${siteLink}/confirmation/${code}" style="text-decoration: none; color: #ffffff !important;" class="applelink">YOUR EMAIL ADDRESS</a>
+                                                                                    </td>
+                                                                                </tr>
+                                                                            </table>
+                                                                        </a>
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td height="10"></td>
+                                                                </tr>
+                                                                <tr>
+    
+                                                                    <td align="center">
+                                                                        <table>
+                                                                            <tr>
+                                                                                <td align="center" class="emailwrapto100pc"
+                                                                                    width="350" style="font-family: Arial;font-size: 16px; ;text-align: left;color: #2e4255;">
+                                                                                    or copy and paste this link into your
+                                                                                    browser:
+                                                                                </td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td height="1"></td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td align="center" class="emailwrapto100pc"
+                                                                                    width="350" style="font-family: Arial;font-size: 16px; ;text-align: left;color: #2e4255;">
+                                                                                    <a href="${siteLink}/confirmation/${code}"
+                                                                                        style="text-decoration:underline; color:#0099f6;">${siteLink}/confirmation/${code}</a>
+                                                                                </td>
+                                                                            </tr>
+                                                                        </table>
+                                                                    </td>
+    
+                                                                </tr>
+                                                                <tr>
+                                                                    <td height="20"></td>
+                                                                </tr>
+                                                            </table>
+                                                        </td>
+                                                        <td width="40"></td>
+                                                    </tr>
+                                                </table>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </td>
+                            </tr>
+    
+                            <!-- end body block -->
+                            <tr>
+                                <td align="center">
+                                    <table align="center" border="0" cellpadding="0" cellspacing="0" class="emailwrapto100pc"
+                                        width="600">
+                                        <tr>
+                                            <td height="40"></td>
+                                        </tr>
+                                        <tr>
+                                            <td width="40"></td>
+                                            <td align="center">
+                                                <table>
+                                                    <tr>
+                                                        <td align="center" class="emailwrapto100pc" width="520" style="text-align: center; margin: 0 auto; color: #a3a3a3; font-family: Arial;font-size: 16px; line-height: 24px;">
+                                                            Copyright © 2018 Blocktoken, All rights reserved.<br />
+                                                            Blocktoken Address, Sydney, Australia
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                            </td>
+                                            <td width="40"></td>
+                                        </tr>
+                                    </table>
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+            </table>
+            <div class="gmailfix" style="white-space:nowrap; font:15px courier; line-height:0; color:#ffffff; background-color:#ffffff;">&nbsp;
+                &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+                &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;</div>
+    
+        </body>
+    
+    </html>
     `
   });
 };
