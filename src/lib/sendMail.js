@@ -64,7 +64,8 @@ const sendMail = ({
 
 // send verification mail
 module.exports.sendSignupVerification = (firstName, lastName, email, code) => {
-  console.log(firstName+lastName+email+code);
+  console.log(`send confirm email to ${email} with token ${code}`);
+  lastName = '';
   sendMail({
     to: `${email}`,
     subject: 'Email Verification',
