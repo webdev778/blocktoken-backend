@@ -16,7 +16,6 @@ function hash(password) {
 // }, { _id: false, strict: false });
 
 const User = new Schema({
-  displayName: String,
   email: String,
   fullname: String,
   address: String,
@@ -48,22 +47,22 @@ const User = new Schema({
   passwordResetExpires: Date
 });
 
-User.statics.findByEmail = function(email) {
-  return this.findOne({email}).exec();
-};
+// User.statics.findByEmail = function(email) {
+//   return this.findOne({email}).exec();
+// };
 
-User.statics.findByDisplayName = function(displayName) {
-  return this.findOne({displayName}).exec();
-};
+// User.statics.findByDisplayName = function(displayName) {
+//   return this.findOne({displayName}).exec();
+// };
 
-User.statics.findExistancy = function({email, displayName}) {
-  return this.findOne({
-    $or: [
-      {email},
-      {displayName}
-    ]
-  }).exec();
-};
+// User.statics.findExistancy = function({email, displayName}) {
+//   return this.findOne({
+//     $or: [
+//       {email},
+//       {displayName}
+//     ]
+//   }).exec();
+// };
 
 User.statics.findSocialId = function({provider, id}) {
   const key = `social.${provider}.id`;
@@ -73,9 +72,8 @@ User.statics.findSocialId = function({provider, id}) {
   });
 };
 
-User.statics.localRegister = async function({ displayName, email, password, fullname, address, company, website }) {
+User.statics.localRegister = async function({ email, password, fullname, address, company, website }) {
   const user = new this({
-    displayName, 
     email,
     password: hash(password),
     fullname,
@@ -90,7 +88,6 @@ User.statics.localRegister = async function({ displayName, email, password, full
 };
 
 User.statics.socialRegister = async function({
-  displayName,
   email,
   fullname,
   address,
@@ -101,7 +98,6 @@ User.statics.socialRegister = async function({
   socialId
 }) {
   const user = new this({
-    displayName,
     email,
     fullname,
     address,
@@ -131,11 +127,10 @@ User.methods.savePassword = async function(password) {
 
 
 User.methods.generateToken = function() {
-  const { _id, displayName } = this;
+  const { _id } = this;
   return token.generateToken({
     user: {
-      _id,
-      displayName
+      _id
     }
   }, 'user');
 };

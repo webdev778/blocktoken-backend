@@ -23,7 +23,7 @@ function getGoogleProfile(accessToken) {
       access_token: accessToken
     }, (err, auth) => {
       if(err) reject(err);
-
+      
       const {
         id, image, emails, displayName,
       } = auth;

@@ -1,7 +1,7 @@
 const Joi = require('joi');
 const User = require('db/models/User');
 
-const projection = ['id', 'displayName', 'email', 'fullname', 'address', 'company', 'website', 'auth_status', 'kyc_status'];
+const projection = ['id', 'email', 'fullname', 'address', 'company', 'website', 'auth_status', 'kyc_status'];
 const project_user = ['id', 'fullname', 'address', 'company', 'website'];
 const project_password = ['id', 'password'];
 

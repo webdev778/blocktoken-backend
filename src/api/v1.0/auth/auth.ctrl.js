@@ -16,7 +16,7 @@ exports.checkEmail = async (ctx) => {
   }
 
   try {
-    const account = await User.findByEmail(email);
+    const account = await User.findOne({email});
     ctx.body = {
       exists: !!account
     };
@@ -46,7 +46,6 @@ exports.localRegister = async (ctx) => {
   const { body } = ctx.request;
 
   const schema = Joi.object({
-    displayName: Joi.string().regex(/^[a-zA-Z0-9]{3,10}/).required(),
     email: Joi.string().email().required(),
     password: Joi.string().min(6).max(30),
     fullname: Joi.string(),
@@ -63,31 +62,26 @@ exports.localRegister = async (ctx) => {
     return;
   }
 
-  const { displayName, email, password, fullname, address, company, website } = body;
 
+  const { email, password, fullname, address, company, website } = body;
   try {
     // check email / displayName existancy
-    const exists = await User.findExistancy({email, displayName});
+    const exists = await User.findOne({email});
     if (exists) {
       // conflict
       ctx.status = 409;
-      const key = exists.email === email ? 'email' : 'displayName';
-      ctx.body = {
-        key
-      };
       return;
     }
-
+    console.log("end");
     // creates user account
     const user = await User.localRegister({
-      displayName, email, password, fullname, address, company, website  
+      email, password, fullname, address, company, website  
     });
+    
     ctx.body = {
-      displayName,
       _id: user._id
       // metaInfo: user.metaInfo
     };
-
     const accessToken = await user.generateToken();
 
     // configure accesstoken to httpOnly cookie
@@ -131,7 +125,7 @@ exports.localLogin = async (ctx) => {
 
   try {
     // find user
-    const user = await User.findByEmail(email);
+    const user = await User.findOne({email});
     if (!user) {
       // user does not exist
       ctx.status = 403;
@@ -151,11 +145,11 @@ exports.localLogin = async (ctx) => {
       maxAge: 1000 * 60 * 60 * 24 * 7
     });
 
-    const { auth_status, kyc_status, displayName, _id } = user;
+    const { auth_status, kyc_status, fullname, _id } = user;
     
     ctx.body = {
       _id,
-      displayName,
+      fullname,
       auth_status,
       kyc_status
     };
@@ -219,11 +213,11 @@ exports.socialLogin = async (ctx) => {
     } catch (e) {
       ctx.throw(e, 500);
     }
-    const { _id, displayName, auth_status, kyc_status, email } = user;
+    const { _id, fullname, auth_status, kyc_status, email } = user;
     ctx.body = {
       auth_status,
       kyc_status,
-      displayName,
+      fullname,
       email,
       _id
     };
@@ -233,7 +227,7 @@ exports.socialLogin = async (ctx) => {
   if (!user && profile.email) {
     let duplicated = null;
     try {
-      duplicated = await User.findByEmail(email);
+      duplicated = await User.findOne({email});
     } catch (e) {
       ctx.throw(e, 500);
     }
@@ -278,7 +272,6 @@ exports.socialRegister = async (ctx) => {
   const { provider } = ctx.params;
   // check schema
   const schema = Joi.object({
-    displayName: Joi.string().regex(/^[a-zA-Z0-9]{3,12}$/).required(),
     fullname: Joi.string(),
     address: Joi.string(),
     company: Joi.string(),
@@ -296,7 +289,6 @@ exports.socialRegister = async (ctx) => {
   }
 
   const {
-    displayName,
     fullname,
     address,
     company,
@@ -326,7 +318,7 @@ exports.socialRegister = async (ctx) => {
     // will check only email exists
     // service allows social accounts without email .. for now
     try {
-      const exists = await User.findByEmail(profile.email);
+      const exists = await User.findOne({email:profile.email});
       if (exists) {
         ctx.body = {
           key: 'email'
@@ -339,24 +331,23 @@ exports.socialRegister = async (ctx) => {
     }
   }
 
-  // check displayName existancy
-  try {
-    const exists = await User.findByDisplayName(displayName);
-    if (exists) {
-      ctx.body = {
-        key: 'displayName'
-      };
-      ctx.status = 409;
-    }
-  } catch (e) {
-    ctx.throw(e, 500);
-  }
+  // // check displayName existancy
+  // try {
+  //   const exists = await User.findByDisplayName(displayName);
+  //   if (exists) {
+  //     ctx.body = {
+  //       key: 'displayName'
+  //     };
+  //     ctx.status = 409;
+  //   }
+  // } catch (e) {
+  //   ctx.throw(e, 500);
+  // }
   
   // create user account
   let user = null;
   try {
     user = await User.socialRegister({
-      displayName,
       email,
       fullname,
       address,
@@ -371,7 +362,6 @@ exports.socialRegister = async (ctx) => {
   }
 
   ctx.body = {
-    displayName,
     _id: user._id
   };
 
@@ -479,7 +469,7 @@ exports.resendEmail = async (ctx) => {
   } = body;
 
   try{
-    const user = await User.findByEmail(email);
+    const user = await User.findOne({email});
     if(!user){
       ctx.status = 400;      
     }
