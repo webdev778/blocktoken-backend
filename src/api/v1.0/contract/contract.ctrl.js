@@ -110,9 +110,7 @@ exports.getTokenContractByAddress = async (ctx)=> {
 exports.crowdsaleRegist = async (ctx)=> {
   const { user } = ctx.request;
 
-  const { tokenAddress } = ctx.request.body;
-
-  let {
+  const {
     multisigETH,
     tokensForTeam,
     minContributionPreSale,
@@ -132,13 +130,17 @@ exports.crowdsaleRegist = async (ctx)=> {
     vestingDuration,
     vestingCliff,
     vestingStart,
-    contractAddress,
+    crowdsaleAddress,
     network,
     isWhitelistingEnabled,
     isVestingEnabled,
     whitelistAddress,
+    tokenAddress
   } = ctx.request.body;
 
+  //print request 
+  console.log('[CrowdsaleRegist] recieved');
+  console.log(tokenAddress)
 
   try{
     const tokenContract = await TokenContract.findOne({contract_address : tokenAddress });
@@ -168,7 +170,7 @@ exports.crowdsaleRegist = async (ctx)=> {
       vesting_duration: vestingDuration,
       vesting_cliff: vestingCliff,
       vesting_start: vestingStart,
-      contract_address: contractAddress,
+      contract_address: crowdsaleAddress,
       network: network,
       user_id: user._id,
       token_contract: tokenContract._id,
