@@ -42,6 +42,38 @@ exports.checkDisplayName = async (ctx) => {
   }
 };
 
+exports.check = async (ctx) => {
+  const { user } = ctx.request;
+  
+  if(!user) {
+    ctx.status = 401;
+    return;
+  }
+
+  try {
+    const exists = await User.findById(user._id);
+    if(!exists) {
+      // invalid user
+      ctx.cookies.set('access_token', null, {
+        maxAge: 0,
+        httpOnly: true
+      });
+      ctx.status = 401;
+      return;
+    }
+
+    const { auth_status, kyc_status, fullname, _id } = user;
+    ctx.body = {
+      _id,
+      fullname,
+      auth_status,
+      kyc_status
+    };
+  } catch (e) {
+    ctx.throw(500, e);
+  }
+};
+
 exports.localRegister = async (ctx) => {
   const { body } = ctx.request;
 

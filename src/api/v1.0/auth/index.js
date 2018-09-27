@@ -14,9 +14,9 @@ auth.post('/register/local', authCtrl.localRegister);
 auth.post('/register/:provider(facebook|google|linkedin)', authCtrl.socialRegister);
 auth.post('/login/local', authCtrl.localLogin);
 auth.post('/login/:provider(facebook|google|linkedin)', authCtrl.socialLogin);
-// auth.get('/check', authCtrl.check);
 auth.post('/logout', authCtrl.logout);
 auth.post('/confirmation/:token', authCtrl.verifyEmail);
 auth.post('/resend', authCtrl.resendEmail);
+auth.get('/check', authCtrl.check);
 
 module.exports = auth;
