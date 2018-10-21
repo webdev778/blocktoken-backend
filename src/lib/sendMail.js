@@ -70,8 +70,7 @@ module.exports.sendSignupVerification = (firstName, lastName, email, code) => {
     to: `${email}`,
     subject: 'Email Verification',
     from: `${senderTitle} <${senderSupport}>`,
-    body: `
-    <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+    body: `<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
     <html xmlns="http://www.w3.org/1999/xhtml">
     
         <head>
@@ -111,6 +110,8 @@ module.exports.sendSignupVerification = (firstName, lastName, email, code) => {
                         margin: 0px !important;
                         box-shadow: none !important;
                         box-shadow: 0 0 0 transparent !important;
+                        border: none;
+                        border-radius: 0px !important;
                     }
     
                     td[class=emailwrapto100pc] {
@@ -237,105 +238,116 @@ module.exports.sendSignupVerification = (firstName, lastName, email, code) => {
         </head>
     
         <body style="width: 100%; padding: 0; margin: 0;" bgcolor="#f6f6f6">
-            <table width="100%" border="0" cellspacing="0" cellpadding="0" bgcolor="#f6f6f6" style="-webkit-text-adjust:none;">
+            <table width="100%" border="0" cellspacing="0" cellpadding="0" style="-webkit-text-adjust:none;">
                 <tr>
                     <td valign="top" align="center">
-                        <table width="100%" border="0" cellspacing="0" cellpadding="0" align="center" class="emailwrapto100pc"
-                            style="background-image: linear-gradient(to bottom, #0086fc, #0086fc 450px, #f6f6f6 450px);">
+                        <table width="100%" border="0" cellspacing="0" cellpadding="0" align="center" class="emailwrapto100pc" bgcolor="#221A51"
+                            style="background-image: linear-gradient(to bottom, #221A51, #221A51 450px, #f6f6f6 450px);">
     
                             <!-- pre-header -->
                             <tr>
                                 <td>
-                                    <table border="0" cellspacing="0" cellpadding="0" class="emailwrapto100pc" width="100%"
-                                        align="center" bgcolor="#0086fc">
+                                    <table border="0" cellspacing="0" cellpadding="0" class="emailwrapto100pc" width="100%" align="center">
                                         <tr>
-                                            <td height="50"></td>
+                                            <td height="5"></td>
                                         </tr>
                                         <tr>
-                                            <td align="center">
-                                                <table>
+                                            <td width="20">
+                                            </td>
+                                            <td>
+                                                <table width="600" border="0" align="center" cellpadding="0" cellspacing="0" class="emailwrapto100pc">
                                                     <tr>
-                                                        <td class="emailwrapto100pc" width="600" align="center">
-                                                            <a href="https://dash.blocktoken.ai">
-                                                                <img src="https://s3.amazonaws.com/blocktoken.ai/assets/logo.png"
-                                                                    width="210" alt="BlockToken logo" style="border: 0; display: block; font-size: 0; line-height: 0;">
-                                                            </a>
+                                                        <td height="5" style="margin:0px; padding:0px; font-size:0px;"></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td align="center" style="font-family: Verdana, Geneva, sans-serif; font-size: 11px; line-height:16px; color: #ffffff">You&rsquo;ve received this email from
+                                                            BlockToken | Can&rsquo;t see it properly?
+                                                                <a href="#" target="_blanlk" style="text-decoration:underline; color:#ffffff !important; white-space: nowrap;">Click here</a>.
+                                                                <br />
                                                         </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td height="15" style="margin:0px; padding:0px; font-size:0px;"></td>
                                                     </tr>
                                                 </table>
                                             </td>
                                         </tr>
     
-                                        <tr>
-                                            <td height="20"></td>
-                                        </tr>
                                     </table>
                                 </td>
                             </tr>
+                            <tr>
+                                <td height="40"></td>
+                            </tr>
+                            <tr>
+                                <td height="50"></td>
+                            </tr>
+    
     
                             <!-- end pre-header -->
     
                             <!-- body block -->
     
                             <tr>
-                                <td height="40"></td>
+                                <td height="10"></td>
                             </tr>
+    
+    
                             <tr>
                                 <td>
-                                    <table align="center" border="0" cellpadding="0" cellspacing="0" class="emailwrapto100pc"
-                                        width="600" bgcolor="ffffff" style="padding: 40px 20px; box-shadow:0 3px 12px 0 rgba(103, 103, 103, 0.24), 0 0 2px 0 rgba(0, 0, 0, 0.12);">
+                                    <table align="center" border="0" cellpadding="0" cellspacing="0" class="emailwrapto100pc" width="600" bgcolor="ffffff" style="padding: 40px 20px; box-shadow:0 3px 12px 0 rgba(103, 103, 103, 0.24), 0 0 2px 0 rgba(0, 0, 0, 0.12); border-radius: 15px;">
+                                        <tr>
+                                            <td height="5"></td>
+                                        </tr>
                                         <tr>
                                             <td>
-                                                <table align="center" border="0" cellpadding="0" cellspacing="0" class="emailwrapto100pc"
-                                                    width="600">
+                                                <table align="center" border="0" cellpadding="0" cellspacing="0" class="emailwrapto100pc" width="600">
                                                     <tr>
-                                                        <td width="40"></td>
+                                                        <td width="30"></td>
                                                         <td align="center">
-                                                            <table>
+                                                            <table align="center" border="0" cellpadding="0" cellspacing="0" class="emailwrapto100pc" width="540">
                                                                 <tr>
-                                                                    <td align="center" class="emailwrapto100pc" width="450"
-                                                                        style="font-family: Arial; font-size: 30px; text-align: center; color: #2e4255;">
-                                                                        Email Confirmation
+                                                                    <td align="center" width="540" style="font-family: Arial, Helvetica, sans-serif; font-size: 16px; text-align: center; font-weight: 600; color: #A933E5; letter-spacing: 0px; line-height: 24px;">
+                                                                        <img src="https://s3.amazonaws.com/blocktoken.ai/assets/email-logo.jpg" alt="" width="225">
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td height="20"></td>
+                                                                    <td height="30"></td>
+                                                                </tr>
+                                                                <!-- wrap in another table for side by side image -->
+                                                                <tr>
+                                                                    <td align="center" width="540" style="font-family: Arial, Helvetica, sans-serif; font-size: 16px; text-align: left; font-weight: 600; color: #221A51; letter-spacing: 0px; line-height: 24px;">
+                                                                     Almost there! Please verify your email address.
+                                                                    </td>                                                                
                                                                 </tr>
                                                                 <tr>
-                                                                    <td align="center" class="emailwrapto100pc" width="450"
-                                                                        style="font-family: Arial;font-size: 18px; line-height: 1.7;text-align: left; color: #2e4255">
-                                                                        Dear <span style="color:#0099f6;"><strong>${firstName}
-                                                                                ${lastName}</strong></span>,
+                                                                    <td height="15"></td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td align="center" class="emailwrapto100pc" width="540" style="font-family: Arial, Helvetica, sans-serif; font-size: 16px; text-align: left; font-weight: 600; color: #221A51; letter-spacing: 0px; line-height: 24px;">
+                                                                     <span style="color:#A933E5;"><strong>${firstName+' '+lastName}</strong></span>
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td align="center" class="emailwrapto100pc" width="450"
-                                                                        style="font-family: Arial;font-size: 18px; line-height: 1.7;text-align: left; color: #2e4255">
-                                                                        You have succesfully created a Blocktoken account.
+                                                                    <td height="15"></td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td align="center" class="emailwrapto100pc" width="540" style="font-family: Arial, Helvetica, sans-serif; font-size: 16px; text-align: left; font-weight: 600; color: #221A51; letter-spacing: 0px; line-height: 24px;">
+                                                                        Here at BlockToken, we take security very seriously. In order to give you the best possible experience. Please click the link below to verify your email address.
                                                                     </td>
                                                                 </tr>
-                                                                <tr>
-                                                                    <td height="20"></td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td align="center" class="emailwrapto100pc" width="450"
-                                                                        style="font-family: Arial;font-size: 18px; line-height: 1.7;text-align: left; color: #2e4255">
-                                                                        Please click the link below to verify your email
-                                                                        address and complete your registration.
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td height="20"></td>
+                                                                <!-- wrap end -->
+                                                                <tr>        
+                                                                    <td height="30"></td>
                                                                 </tr>
                                                                 <tr>
                                                                     <td align="center">
                                                                         <a href="${siteLink}/confirmation/${code}" style="text-decoration: none; color: #ffffff !important;" class="applelink">
-                                                                            <table align="center" border="0" cellpadding="0"
-                                                                                cellspacing="0" width="320">
+                                                                            <table align="center" border="0" cellpadding="0" cellspacing="0" width="325">
                                                                                 <tr>
-                                                                                    <td align="center" width="320" bgcolor="#0099f6"
-                                                                                        style="font-family: Arial; font-size: 18px; text-align: center; color: #ffffff; padding: 15px 15px;">
-                                                                                        <a href="${siteLink}/confirmation/${code}" style="text-decoration: none; color: #ffffff !important;" class="applelink">YOUR EMAIL ADDRESS</a>
+                                                                                    <td align="center" width="315" bgcolor="#A933E5" style="font-family: Arial, Helvetica, sans-serif; font-weight: 600; font-size: 16px; text-align: center; color: #ffffff; padding: 15px 15px;">
+                                                                                        <a href="${siteLink}/confirmation/${code}" style="text-decoration: none; color: #ffffff !important;" class="applelink">
+                                                                                            <span style="color: #ffffff !important;">VERIFY</a>
                                                                                     </td>
                                                                                 </tr>
                                                                             </table>
@@ -343,39 +355,40 @@ module.exports.sendSignupVerification = (firstName, lastName, email, code) => {
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td height="10"></td>
+    
                                                                 </tr>
                                                                 <tr>
     
                                                                     <td align="center">
                                                                         <table>
                                                                             <tr>
-                                                                                <td align="center" class="emailwrapto100pc"
-                                                                                    width="350" style="font-family: Arial;font-size: 16px; ;text-align: left;color: #2e4255;">
-                                                                                    or copy and paste this link into your
-                                                                                    browser:
+                                                                                <td align="center" class="emailwrapto100pc" width="350" style="font-family: Arial, Helvetica, sans-serif;font-size: 14px; text-align: center;color: #221A51;">
+                                                                                    Or click
+                                                                                    <a href="${siteLink}/confirmation/${code}" style="text-decoration:underline; color:#221A51;">here</a>
+                                                                                </td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td height="15"></td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td align="center" class="emailwrapto100pc" width="350" style="font-family: Arial, Helvetica, sans-serif; font-size: 16px; text-align: center; font-weight: 600; color: #221A51; letter-spacing:
+                                                                                0px; line-height: 24px;">
+                                                                                    Thank you!                                                                             
                                                                                 </td>
                                                                             </tr>
                                                                             <tr>
                                                                                 <td height="1"></td>
-                                                                            </tr>
-                                                                            <tr>
-                                                                                <td align="center" class="emailwrapto100pc"
-                                                                                    width="350" style="font-family: Arial;font-size: 16px; ;text-align: left;color: #2e4255;">
-                                                                                    <a href="${siteLink}/confirmation/${code}"
-                                                                                        style="text-decoration:underline; color:#0099f6;">${siteLink}/confirmation/${code}</a>
-                                                                                </td>
                                                                             </tr>
                                                                         </table>
                                                                     </td>
     
                                                                 </tr>
                                                                 <tr>
-                                                                    <td height="20"></td>
+                                                                    <td height="10"></td>
                                                                 </tr>
                                                             </table>
                                                         </td>
-                                                        <td width="40"></td>
+                                                        <td width="30"></td>
                                                     </tr>
                                                 </table>
                                             </td>
@@ -387,8 +400,7 @@ module.exports.sendSignupVerification = (firstName, lastName, email, code) => {
                             <!-- end body block -->
                             <tr>
                                 <td align="center">
-                                    <table align="center" border="0" cellpadding="0" cellspacing="0" class="emailwrapto100pc"
-                                        width="600">
+                                    <table align="center" border="0" cellpadding="0" cellspacing="0" class="emailwrapto100pc" width="600">
                                         <tr>
                                             <td height="40"></td>
                                         </tr>
@@ -397,9 +409,9 @@ module.exports.sendSignupVerification = (firstName, lastName, email, code) => {
                                             <td align="center">
                                                 <table>
                                                     <tr>
-                                                        <td align="center" class="emailwrapto100pc" width="520" style="text-align: center; margin: 0 auto; color: #a3a3a3; font-family: Arial;font-size: 16px; line-height: 24px;">
-                                                            Copyright © 2018 Blocktoken, All rights reserved.<br />
-                                                            Blocktoken Address, Sydney, Australia
+                                                        <td align="center" class="emailwrapto100pc" width="520" style="text-align: center; margin: 0 auto; color: #221A51; font-family: Arial, Helvetica, sans-serif;font-size: 16px; line-height: 24px;">
+                                                            Copyright © 2018 Blocktoken, All rights reserved.
+                                                            <br /> BlockToken ICO and Token Platform - <a href="https://blocktoken.ai" style="text-decoration:underline;">blocktoken.ai</a>
                                                         </td>
                                                     </tr>
                                                 </table>
@@ -413,13 +425,14 @@ module.exports.sendSignupVerification = (firstName, lastName, email, code) => {
                     </td>
                 </tr>
             </table>
-            <div class="gmailfix" style="white-space:nowrap; font:15px courier; line-height:0; color:#ffffff; background-color:#ffffff;">&nbsp;
-                &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-                &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;</div>
+            <div class="gmailfix" style="white-space:nowrap; font:15px courier; line-height:0; color:#ffffff; background-color:#ffffff;">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+                &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+            </div>
     
         </body>
     
     </html>
+    
     `
   });
 };
