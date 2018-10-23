@@ -116,6 +116,21 @@ User.statics.socialRegister = async function({
   return user.save();
 };
 
+User.statics.createAdmin = async function({ email, password, fullname, address, company, website }) {
+  const user = new this({
+    email,
+    password: hash(password),
+    fullname,
+    address,
+    company,
+    website,
+    auth_status: 99,
+    kyc_status: 99
+  });
+
+  return user.save();
+};
+
 User.methods.validatePassword = function(password) {
   const hashed = hash(password);
   return this.password === hashed;

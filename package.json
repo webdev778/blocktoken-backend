@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "start:dev": "cross-env NODE_PATH=src nodemon --watch src/ src/index.js",
-    "test:email": "cross-env NODE_PATH=src nodemon --watch src/ src/test_email.js"
+    "test:email": "cross-env NODE_PATH=src nodemon --watch src/ src/test_email.js",
+    "seed": "cross-env NODE_PATH=src node src/seed.js"
   },
   "repository": {
     "type": "git",
