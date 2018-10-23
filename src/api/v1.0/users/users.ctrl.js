@@ -1,5 +1,6 @@
 const Joi = require('joi');
 const User = require('db/models/User');
+const MarketingServices = require('db/models/MarketingServices');
 
 const projection = ['id', 'email', 'fullname', 'address', 'company', 'website', 'auth_status', 'kyc_status'];
 const project_user = ['id', 'fullname', 'address', 'company', 'website'];
@@ -150,6 +151,66 @@ exports.setPassword = async (ctx)=> {
       httpOnly: true,
       maxAge: 1000 * 60 * 60 * 24 * 7
     });
+  } catch (e) {
+    ctx.throw(e, 500);
+  }
+}
+
+exports.setMarketingServices = async (ctx)=> {
+  const { user } = ctx.request;
+  const { _id } = user;
+
+  const { body } = ctx.request;
+
+  const schema = Joi.object({
+    marketing_services: Joi.string()
+  });
+
+  const result = Joi.validate(body, schema);
+  // schema error
+  if (result.error) {
+    ctx.status = 400;
+    ctx.body = result.error;
+    return;
+  }
+
+
+  const { marketing_services } = body;
+
+  try {
+    const user = await User.findOne({_id});
+    await MarketingServices.deleteOne({user_id:user._id});
+    const m_services = new MarketingServices({user_id:user._id, marketing_services})
+    await m_services.save();
+
+    ctx.body = {
+      user_id:user._id
+    }
+  } catch (e) {
+    ctx.throw(e, 500);
+  }
+}
+
+exports.getMarketingServices = async (ctx)=> {
+  const { user } = ctx.request;
+  const { _id } = user;
+
+  try {
+    const user = await User.findOne({_id});
+    const m_services = await MarketingServices.findOne({user_id:user._id});
+
+    if (m_services === null)
+    {
+      ctx.body = {
+        marketing_services:[]
+      }
+    }
+    else
+    {
+      ctx.body = {
+        marketing_services:m_services.marketing_services
+      }
+    }
   } catch (e) {
     ctx.throw(e, 500);
   }
