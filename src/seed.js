@@ -13,12 +13,13 @@ const User = require('./db/models/User');
     const result = await User.findOne({
       auth_status: 99
     });
-
+    
     if(result) {
       log.info('already admin account existed.');
+      process.exit(0);
       return;
     }
-
+    
     // create
     await User.createAdmin({
       email: 'admin@blocktoken.ai',
@@ -39,12 +40,10 @@ const User = require('./db/models/User');
       website: 'https://blocktoken.ai',
     });
 
-    exit(0);
+    process.exit(0);
 
   }catch( err ){
     log.error('seed failed');
     log.error(err);
   }
 })();
-
-process.exit(0);
