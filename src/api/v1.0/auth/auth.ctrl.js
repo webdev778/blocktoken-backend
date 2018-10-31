@@ -177,13 +177,22 @@ exports.localLogin = async (ctx) => {
       maxAge: 1000 * 60 * 60 * 24 * 7
     });
 
-    const { auth_status, kyc_status, fullname, _id } = user;
+    const { auth_status, kyc_status, fullname, _id, roles } = user;
+
+    console.log('role testing..');
+    console.log(user);
+    console.log(roles);
+    let role = 'user';
+    if(roles.length > 0){
+      role = roles[0];
+    }
     
     ctx.body = {
       _id,
       fullname,
       auth_status,
-      kyc_status
+      kyc_status,
+      role
     };
   } catch (e) {
     ctx.throw(e, 500);
@@ -245,13 +254,20 @@ exports.socialLogin = async (ctx) => {
     } catch (e) {
       ctx.throw(e, 500);
     }
-    const { _id, fullname, auth_status, kyc_status, email } = user;
+    const { _id, fullname, auth_status, kyc_status, email, roles } = user;
+    
+    let role = 'user';
+    if(roles.length > 0){
+      role = roles[0];
+    }
+
     ctx.body = {
       auth_status,
       kyc_status,
       fullname,
       email,
-      _id
+      _id,
+      role
     };
     return;
   }
